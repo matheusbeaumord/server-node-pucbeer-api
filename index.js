@@ -12,4 +12,4 @@ app.use(routes);
 
 app.use('/images', express.static(`${__dirname}/images`));
 
-app.listen(3001, () => console.log('Rodando...'));
+app.listen(3001, () => console.log('Rodando.....'));
