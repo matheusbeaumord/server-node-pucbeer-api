@@ -1,37 +1,38 @@
-name: Deploy to Elastic Beanstalk - Server
+name: AWS Elastic Beanstalk Deployment
+
 on:
   push:
     branches:
-     - main
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-        ws-region: us-east-1
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: us-east-1
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: "14.x"
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
       - name: Deploy to AWS Elastic Beanstalk
         env:
-          ENVIRONMENT_NAME: server-node-pucbeer-api-env
-          APPLICATION_NAME: server-node-pucbeer-api
+          ENVIRONMENT_NAME: 'NOME_DO_AMBIENTE'
+          APPLICATION_NAME: 'NOME_DA_APLICACAO'
           FILE_ZIP: 'NOME_DO_ARQUIVO_ZIP.zip'
           BUCKET_S3_NAME: 'NOME_DO_BUCKET_S3'
         run: |
