@@ -1,6 +1,12 @@
-## Desenvolvimento
+# Rodando a aplicação
 
-- O back-end deve ser iniciado com `npm start` na pasta e escutar a porta `3001`.
+1º – Clone esse repositório
+
+2ª – Back-end:
+- Execute o comando em seu terminal: `npm install`
+	- npm é um gerenciador de pacotes para a linguagem de programação JavaScript
+- Em seguida, execute o comando: `npm start` ou `yarn start`
+	- Isso fará com que abra em seu terminal uma pagina com a seguinte URL `http://localhost:3001`
 
 O banco de dados utilizado será o `MySQL`!
 
@@ -18,7 +24,7 @@ Assim já irá criar o banco e terá alguns dados inseridos. **É essencial segu
 
 **Você irá precisar configurar as variáveis globais do MySQL.** Você pode usar esse [Conteúdo de variáveis de ambiente com NodeJS](https://blog.rocketseat.com.br/variaveis-ambiente-nodejs/) como referência.
 
-`puc-beer/back-end/models/connection.js`
+`models/connection.js`
 
 ```
 const config = {
