@@ -5,12 +5,12 @@ const messageErroConexão = 'Erro de conexão';
 const create = async (tudao) => {
   const { userId, tPrice, dAddress, dNumber, date, status } = tudao;
   try {
-    const newUser = await connection.execute(
-      `INSERT INTO sales (user_id,total_price,delivery_address,delivery_number,sale_date,status) 
-      VALUES (?,?,?,?,?,?)`,
-      [userId, tPrice, dAddress, dNumber, date, status],
+    const result = await connection.query(
+      `INSERT INTO sales (user_id, total_price, delivery_address, delivery_number, sale_date, status)
+       VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
+      [userId, tPrice, dAddress, dNumber, date, status]
     );
-    return newUser[0].insertId;
+    return result.rows[0].id;
   } catch (error) {
     throw new Error(messageErroConexão);
   }
@@ -18,13 +18,13 @@ const create = async (tudao) => {
 
 const getAll = async (id) => {
   try {
-    const sales = await connection.execute(
+    const sales = await connection.query(
       `SELECT * FROM sales 
-      WHERE user_id = ?
+      WHERE user_id = $1
       ORDER BY id`,
-      [id],
+      [id]
     );
-    return sales[0];
+    return sales.rows;
   } catch (error) {
     throw new Error(messageErroConexão);
   }
@@ -32,10 +32,8 @@ const getAll = async (id) => {
 
 const getReallyAll = async () => {
   try {
-    const sales = await connection.execute(
-      'SELECT * FROM sales',
-);
-    return sales[0];
+    const sales = await connection.query('SELECT * FROM sales');
+    return sales.rows;
   } catch (error) {
     throw new Error(messageErroConexão);
   }
@@ -43,11 +41,10 @@ const getReallyAll = async () => {
 
 const getById = async (id) => {
   try {
-    const sales = await connection.execute(
-      'SELECT * FROM sales WHERE id=?', 
-      [id],
-    );
-    return sales[0];
+    const sales = await connection.query('SELECT * FROM sales WHERE id=$1', [
+      id,
+    ]);
+    return sales.rows;
   } catch (error) {
     throw new Error(messageErroConexão);
   }
@@ -55,55 +52,56 @@ const getById = async (id) => {
 
 const getByOrderNumber = async (idDOPedido) => {
   try {
-    const sale = await connection.execute(
+    const sale = await connection.query(
       `
-      select sp.product_id, sp.quantity, p.price, p.name from sales s
-      join sales_products sp on s.id=sp.sale_id
-      join products p on p.id=sp.product_id
-      where s.id=?;
+      SELECT sp.product_id, sp.quantity, p.price, p.name FROM sales s
+      JOIN sales_products sp ON s.id=sp.sale_id
+      JOIN products p ON p.id=sp.product_id
+      WHERE s.id=$1;
       `,
-     [idDOPedido],
+      [idDOPedido]
     );
-    return sale[0];
+    return sale.rows;
   } catch (error) {
     throw new Error(error);
   }
 };
 
-  const getAllOrders = async () => {
-    try {
-      const orders = await connection.execute(
-        `
-        SELECT delivery_number, delivery_address, total_price FROM sales;
-        `,
-      );
-    return orders[0];
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
+const getAllOrders = async () => {
+  try {
+    const orders = await connection.query(
+      `
+      SELECT delivery_number, delivery_address, total_price FROM sales;
+      `
+    );
+    return orders.rows;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 
-  const updateSale = async (idDoPedido) => {
-    try {
-      const orders = await connection.execute(
-        `
-        UPDATE sales
-        SET status = 'Entregue'
-        WHERE id = ?;
-        `,
-        [idDoPedido],
-      );
-    return orders[0];
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
+const updateSale = async (idDoPedido) => {
+  try {
+    const result = await connection.query(
+      `
+      UPDATE sales
+      SET status = 'Entregue'
+      WHERE id = $1;
+      `,
+      [idDoPedido]
+    );
+    return result.rowCount;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 
-module.exports = { 
-create, 
-getAll,
-getByOrderNumber,
-getAllOrders,
-getById,
-getReallyAll,
-updateSale };
+module.exports = {
+  create,
+  getAll,
+  getByOrderNumber,
+  getAllOrders,
+  getById,
+  getReallyAll,
+  updateSale,
+};

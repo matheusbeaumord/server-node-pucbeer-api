@@ -24,17 +24,17 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
+          node-version: '16.x'
 
       - name: Install dependencies
         run: npm install
 
       - name: Deploy to AWS Elastic Beanstalk
         env:
-          ENVIRONMENT_NAME: 'NOME_DO_AMBIENTE'
-          APPLICATION_NAME: 'NOME_DA_APLICACAO'
-          FILE_ZIP: 'NOME_DO_ARQUIVO_ZIP.zip'
-          BUCKET_S3_NAME: 'NOME_DO_BUCKET_S3'
+          ENVIRONMENT_NAME: 'pucbeer-api-env'
+          APPLICATION_NAME: 'pucbeer-api'
+          FILE_ZIP: 'puc-beer-backend.zip'
+          BUCKET_S3_NAME: 'elasticbeanstalk-us-east-1-350902536887'
         run: |
           cd server
           npm install
