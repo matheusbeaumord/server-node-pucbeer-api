@@ -9,16 +9,11 @@ const create = async (dAddress, dNumber, listProducts, authorization) => {
 
   const tPrice = Object.entries(listProducts).reduce((acc, product) => {
     const productQuantity = Number(product[1]);
-    const productPrice = produtosLista[0].find(
+    const productPrice = produtosLista.find(
       (p) => p.id === Number(product[0])
     ).price;
     return acc + productQuantity * productPrice;
   }, 0);
-
-  console.log(
-    '🚀 ~ file: SaleService.js:15 ~ tPrice ~ productPrice:',
-    productPrice
-  );
 
   const allPropeties = {
     userId: decoded.id,
