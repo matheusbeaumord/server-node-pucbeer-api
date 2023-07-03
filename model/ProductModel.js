@@ -9,4 +9,33 @@ const allProducts = async () => {
   }
 };
 
-module.exports = { allProducts };
+const addProduct = async (name, price, url_image) => {
+  try {
+    const query =
+      'INSERT INTO products (name, price, url_image) VALUES ($1, $2, $3)';
+    await connection.query(query, [name, price, url_image]);
+  } catch (error) {
+    throw new Error('Erro ao adicionar o produto');
+  }
+};
+
+const updateProduct = async (id, name, price, url_image) => {
+  try {
+    const query =
+      'UPDATE products SET name = $1, price = $2, url_image = $3 WHERE id = $4';
+    await connection.query(query, [name, price, url_image, id]);
+  } catch (error) {
+    throw new Error('Erro ao atualizar o produto');
+  }
+};
+
+const deleteProduct = async (id) => {
+  try {
+    const query = 'DELETE FROM products WHERE id = $1';
+    await connection.query(query, [id]);
+  } catch (error) {
+    throw new Error('Erro ao remover o produto');
+  }
+};
+
+module.exports = { allProducts, addProduct, updateProduct, deleteProduct };

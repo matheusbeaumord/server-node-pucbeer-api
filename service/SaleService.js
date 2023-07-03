@@ -6,18 +6,34 @@ const jwt = require('../helper/jwt');
 const create = async (dAddress, dNumber, listProducts, authorization) => {
   const decoded = jwt.decodeToken(authorization);
   const produtosLista = await ProductService.getAll();
+
   const tPrice = Object.entries(listProducts).reduce((acc, product) => {
     const productQuantity = Number(product[1]);
-    const productPrice = produtosLista[0].find((p) => p.id === Number(product[0])).price;
-    return acc + (productQuantity * productPrice);
+    const productPrice = produtosLista[0].find(
+      (p) => p.id === Number(product[0])
+    ).price;
+    return acc + productQuantity * productPrice;
   }, 0);
+
+  console.log(
+    '🚀 ~ file: SaleService.js:15 ~ tPrice ~ productPrice:',
+    productPrice
+  );
+
   const allPropeties = {
-    userId: decoded.id, tPrice, dAddress, dNumber, date: new Date(), status: 'Pendente',
+    userId: decoded.id,
+    tPrice,
+    dAddress,
+    dNumber,
+    date: new Date(),
+    status: 'Pendente',
   };
 
   const newSaleId = await SaleModel.create(allPropeties);
   Promise.all(
-    Object.entries(listProducts).map((p) => SalesProductsModel.create(newSaleId, p[0], p[1])),
+    Object.entries(listProducts).map((p) =>
+      SalesProductsModel.create(newSaleId, p[0], p[1])
+    )
   );
 };
 
@@ -53,11 +69,12 @@ const saleUpdate = async (idDoPedido) => {
   return sale;
 };
 
-module.exports = { 
-create, 
-getAll,
-getSaleByOrderNumber,
-getAllOrders,
-getById,
-getReallyAll,
-saleUpdate };
+module.exports = {
+  create,
+  getAll,
+  getSaleByOrderNumber,
+  getAllOrders,
+  getById,
+  getReallyAll,
+  saleUpdate,
+};
