@@ -5,23 +5,18 @@ const getAll = async () => {
   return products;
 };
 
-const addProduct = async (name, price, description) => {
+const addProduct = async (name, price, urlImage) => {
   try {
-    const product = await ProductModel.createProduct(name, price, description);
+    const product = await ProductModel.addProduct(name, price, urlImage);
     return product;
   } catch (error) {
     throw new Error('Erro ao adicionar o produto');
   }
 };
 
-const updateProduct = async (id, name, price, description) => {
+const updateProduct = async (id, name, price, urlImage) => {
   try {
-    const product = await ProductModel.updateProduct(
-      id,
-      name,
-      price,
-      description
-    );
+    const product = await ProductModel.updateProduct(id, name, price, urlImage);
     return product;
   } catch (error) {
     throw new Error('Erro ao atualizar o produto');

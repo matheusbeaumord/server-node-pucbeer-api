@@ -15,6 +15,7 @@ router.post('/updateUserName', checkToken, userController.updateUserName);
 router.post('/login', userController.login);
 
 router.get('/products', productsControler.getAllProducts);
+router.post('/products', productsControler.addProduct);
 
 router.post('/sale', saleControler.create);
 
