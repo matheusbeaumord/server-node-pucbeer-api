@@ -14,9 +14,19 @@ const addProduct = async (name, price, urlImage) => {
   }
 };
 
+const getById = async (id) => {
+  const number = Number(id);
+  try {
+    const product = await ProductModel.getById(number);
+    return product;
+  } catch (error) {
+    throw new Error('Produto nao encontrado');
+  }
+};
+
 const updateProduct = async (id, name, price, urlImage) => {
   try {
-    const product = await ProductModel.updateProduct(id, name, price, urlImage);
+    const product = await ProductModel.updateProduct(name, price, urlImage, id);
     return product;
   } catch (error) {
     throw new Error('Erro ao atualizar o produto');
@@ -37,4 +47,5 @@ module.exports = {
   addProduct,
   updateProduct,
   deleteProduct,
+  getById,
 };

@@ -4,7 +4,7 @@ const checkToken = require('./middleware/checkToken');
 const router = express.Router();
 
 const userController = require('./controller/UserController');
-const productsControler = require('./controller/ProductController');
+const productsController = require('./controller/ProductController');
 const saleControler = require('./controller/SaleController');
 
 router.post('/user', userController.create);
@@ -14,8 +14,10 @@ router.post('/updateUserName', checkToken, userController.updateUserName);
 // Recebe "email" e "passowrd" através do body e recebe o token.
 router.post('/login', userController.login);
 
-router.get('/products', productsControler.getAllProducts);
-router.post('/products', productsControler.addProduct);
+router.get('/products', productsController.getAllProducts);
+router.post('/products', productsController.addProduct);
+router.get('/products/:id', productsController.getProductById);
+router.put('/products/:id', productsController.editProduct);
 
 router.post('/sale', saleControler.create);
 
