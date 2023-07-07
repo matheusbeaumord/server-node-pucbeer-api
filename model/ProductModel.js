@@ -31,6 +31,7 @@ const getById = async (id) => {
   }
 };
 
+// update ainda com problema
 const updateProduct = async (name, price, url_image, id) => {
   try {
     const query =
@@ -46,7 +47,7 @@ const deleteProduct = async (id) => {
     const query = 'DELETE FROM products WHERE id = $1';
     await connection.query(query, [id]);
   } catch (error) {
-    throw new Error('Erro ao remover o produto');
+    throw new Error('Erro ao remover o produto', error);
   }
 };
 
