@@ -5,23 +5,28 @@ const getAll = async () => {
   return products;
 };
 
-const addProduct = async (name, price, description) => {
+const addProduct = async (name, price, urlImage) => {
   try {
-    const product = await ProductModel.createProduct(name, price, description);
+    const product = await ProductModel.addProduct(name, price, urlImage);
     return product;
   } catch (error) {
     throw new Error('Erro ao adicionar o produto');
   }
 };
 
-const updateProduct = async (id, name, price, description) => {
+const getById = async (id) => {
+  const number = Number(id);
   try {
-    const product = await ProductModel.updateProduct(
-      id,
-      name,
-      price,
-      description
-    );
+    const product = await ProductModel.getById(number);
+    return product;
+  } catch (error) {
+    throw new Error('Produto nao encontrado');
+  }
+};
+
+const updateProduct = async (id, name, price, urlImage) => {
+  try {
+    const product = await ProductModel.updateProduct(name, price, urlImage, id);
     return product;
   } catch (error) {
     throw new Error('Erro ao atualizar o produto');
@@ -42,4 +47,5 @@ module.exports = {
   addProduct,
   updateProduct,
   deleteProduct,
+  getById,
 };

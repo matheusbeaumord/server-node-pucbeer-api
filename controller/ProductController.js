@@ -35,6 +35,42 @@ const updateProduct = async (req, res) => {
   }
 };
 
+const editProduct = async (req, res) => {
+  const { id } = req.params;
+  const { name, price, urlImage } = req.body;
+
+  try {
+    // Verificar se o produto com o ID fornecido existe
+    const existingProduct = await ProductService.getById(id);
+    if (!existingProduct) {
+      return res.status(404).json({ error: 'Produto não encontrado' });
+    }
+
+    // Atualizar os dados do produto
+    await ProductService.updateProduct(id, name, price, urlImage);
+
+    // Retornar o produto atualizado
+    const updatedProduct = await ProductService.getById(id);
+    return res.status(200).json(updatedProduct);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Erro de conexão' });
+  }
+};
+
+const getProductById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Verificar se o produto com o ID fornecido existe
+    const existingProduct = await ProductService.getById(id);
+    return res.status(200).json(existingProduct);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Erro de ao pesquisar o produto' });
+  }
+};
+
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
   try {
@@ -45,4 +81,11 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-module.exports = { getAllProducts, addProduct, updateProduct, deleteProduct };
+module.exports = {
+  getAllProducts,
+  addProduct,
+  updateProduct,
+  deleteProduct,
+  editProduct,
+  getProductById,
+};

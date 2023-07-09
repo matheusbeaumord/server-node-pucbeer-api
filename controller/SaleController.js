@@ -11,7 +11,6 @@ const create = async (req, res) => {
       listProducts,
       authorization
     );
-    console.log('🚀 ~ file: SaleController.js:14 ~ create ~ newSale:', newSale);
     return res.status(200).json(newSale);
   } catch (error) {
     return res.status(500).json({ error: error.message });

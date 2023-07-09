@@ -19,7 +19,20 @@ const addProduct = async (name, price, url_image) => {
   }
 };
 
-const updateProduct = async (id, name, price, url_image) => {
+const getById = async (id) => {
+  try {
+    const query = await connection.query(
+      'SELECT * FROM products WHERE id = $1',
+      [id]
+    );
+    return query.rows[0];
+  } catch (error) {
+    throw new Error('Não foi encontrato nenhum produto');
+  }
+};
+
+// update ainda com problema
+const updateProduct = async (name, price, url_image, id) => {
   try {
     const query =
       'UPDATE products SET name = $1, price = $2, url_image = $3 WHERE id = $4';
@@ -34,8 +47,14 @@ const deleteProduct = async (id) => {
     const query = 'DELETE FROM products WHERE id = $1';
     await connection.query(query, [id]);
   } catch (error) {
-    throw new Error('Erro ao remover o produto');
+    throw new Error('Erro ao remover o produto', error);
   }
 };
 
-module.exports = { allProducts, addProduct, updateProduct, deleteProduct };
+module.exports = {
+  allProducts,
+  addProduct,
+  updateProduct,
+  deleteProduct,
+  getById,
+};
