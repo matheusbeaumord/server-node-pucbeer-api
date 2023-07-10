@@ -10,6 +10,13 @@ const create = async (name, email, role, password) => {
 const updateUserName = async (values, authorization) => {
   const { name, email } = values;
   const decoded = jwt.decodeToken(authorization);
+
+  // Verificar se já existe um usuário com o email fornecido
+  const existingUser = await UserModel.findByEmail(email);
+  if (existingUser && existingUser.email !== decoded.email) {
+    throw new Error('Email already exists');
+  }
+
   await UserModel.updateByEmail(decoded.email, { name, email });
   const success = `Nome atualizado para ${name}.`;
   return success;
