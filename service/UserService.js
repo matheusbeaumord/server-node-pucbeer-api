@@ -2,14 +2,15 @@ const UserModel = require('../model/UserModel');
 const jwt = require('../helper/jwt');
 
 const create = async (name, email, role, password) => {
-  const roleExists = role || 'client'; 
+  const roleExists = role || 'client';
   const newUser = await UserModel.create(name, email, roleExists, password);
   return { newUser, status: 200 };
 };
 
-const updateUserName = async (name, authorization) => {
+const updateUserName = async (values, authorization) => {
+  const { name, email } = values;
   const decoded = jwt.decodeToken(authorization);
-  await UserModel.updateByEmail(decoded.email, name);
+  await UserModel.updateByEmail(decoded.email, { name, email });
   const success = `Nome atualizado para ${name}.`;
   return success;
 };

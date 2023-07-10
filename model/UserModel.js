@@ -24,11 +24,12 @@ const findByEmail = async (email) => {
   }
 };
 
-const updateByEmail = async (email, name) => {
+const updateByEmail = async (email, values) => {
+  const { name, email: newEmail } = values;
   try {
     const user = await connection.query(
-      'UPDATE users SET name = $1 WHERE email = $2',
-      [name, email]
+      'UPDATE users SET name = $1, email = $2 WHERE email = $3',
+      [name, newEmail, email]
     );
     return user.rowCount;
   } catch (error) {
