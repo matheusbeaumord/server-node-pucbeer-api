@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "debug": "nodemon index.js",
+    "build": "nodemon index.js",
     "start:watch": "nodemon index.js",
     "test": "jest",
     "test-coverage": "jest --coverage --watchAll=false",

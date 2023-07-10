@@ -41,11 +41,11 @@ CREATE TABLE IF NOT EXISTS sales_products (
 INSERT INTO users (name, email, password, role)
 VALUES (
         'pucbeer Admin',
-        'pucbeer@pucbeer.com.br',
+        'pucbeer@pucbeer.com',
         '123456',
         'administrator'
     ),
-    ('testuser', 'user@test.com', 'test123', 'client');
+    ('teste', 'teste@test.com', '123456', 'client');
 INSERT INTO products (name, price, url_image)
 VALUES (
         'Skol Lata 250ml',
